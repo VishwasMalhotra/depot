@@ -17,7 +17,7 @@ class Product < ApplicationRecord
   has_many :line_items, dependent: :restrict_with_error
   belongs_to :category, counter_cache: true
   has_many :images
-  accepts_nested_attributes_for :images
+  accepts_nested_attributes_for :images, allow_destroy: true
   has_many :carts, through: :line_items
 
   before_destroy :ensure_not_referenced_by_any_line_item

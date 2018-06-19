@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180618070323) do
+ActiveRecord::Schema.define(version: 20180619113444) do
 
   create_table "addresses", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "state"
@@ -46,7 +46,7 @@ ActiveRecord::Schema.define(version: 20180618070323) do
   end
 
   create_table "images", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.binary "picture"
+    t.string "name"
     t.bigint "product_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -96,6 +96,7 @@ ActiveRecord::Schema.define(version: 20180618070323) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "email"
+    t.string "role", default: "user"
   end
 
   add_foreign_key "line_items", "carts"

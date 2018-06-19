@@ -19,9 +19,13 @@
   <strong>Price:</strong>
   <%= @product.price %>
 </p>
-<strong>Image:</strong>
-<img src=/public/upload/<%= "#{@product.id}" %>"_1.jpg">
 
-<%= image_tag("/public/upload/#{@product.id}_1") %>
+<% @product.images.each do |img| %>
+<p>
+  <strong>Image:</strong>
+  <%= image_tag(img.id, class: 'list_image') %>
+</p>
+<% end %>
+
 <%= link_to 'Edit', edit_product_path(@product) %> |
 <%= link_to 'Back', products_path %>

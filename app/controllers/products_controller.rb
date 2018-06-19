@@ -9,7 +9,7 @@ class ProductsController < ApplicationController
     @category = Category.includes(:products, subcategories: :products)
 
     respond_to do |format|
-      format.json  { render json: @products, :only => [:title], :include => {:category => {:only => [:title]} } }
+      format.json  { render json: @products, only: :title, include: {category: {only: [:title]} } }
       format.html
     end
   end
@@ -22,6 +22,7 @@ class ProductsController < ApplicationController
   # GET /products/new
   def new
     @product = Product.new
+    3.times { @product.images.build }
   end
 
   # GET /products/1/edit
@@ -35,7 +36,7 @@ class ProductsController < ApplicationController
 
     respond_to do |format|
       if @product.save
-        upload()
+        upload
         format.html { redirect_to @product, notice: 'Product was successfully created.' }
         format.json { render :show, status: :created, location: @product }
       else
@@ -70,15 +71,28 @@ class ProductsController < ApplicationController
   end
 
 
-def upload
-  uploaded_io = params[:product][:images_attributes].permit!
-  uploaded_io.keys.map.with_index do |index, key|
-    @image_stored = File.read(uploaded_io[key.to_s]["picture_#{index}"].tempfile.path)
-    File.open(Rails.root.join('public', 'upload', Product.last.id.to_s + "_#{index}"), 'wb') do |file|
-      file.write(@image_stored)
+  def upload
+    uploaded_io = params[:product][:images_attributes]
+
+    uploaded_io.keys.map.with_index do |index, key|
+
+    @image_name = uploaded_io[key.to_s]["picture"].original_filename
+
+    new_image = Image.new(name: @image_name, product_id: @product.id)
+    new_image.save!
+
+    @image_id = @product.images.find_by(name: @image_name).id
+
+    @image_stored = File.read(uploaded_io[key.to_s]["picture"].tempfile.path)
+
+    @image_content_type = uploaded_io[key.to_s]["picture"].content_type
+
+    # File.open(Rails.root.join('app', 'assets', 'images', Dir.mkdir("#{@image_id}"), "#{@image_name}"), 'wb') do |file|
+      File.open(Rails.root.join('app', 'assets', 'images', @image_id.to_s.concat("." + @image_name.split(".").last)), 'wb') do |file|
+        file.write(@image_stored)
+      end
     end
   end
-end
 
 
 
@@ -90,7 +104,7 @@ end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def product_params
-      params.require(:product).permit(:title, :description, :image_url, :price, :discount_price, :permalink, :enabled, :category_id, images_attributes: [:picture])
+      params.require(:product).permit(:title, :description, :image_url, :price, :discount_price, :permalink, :enabled, :category_id)
     end
 
     def who_bought

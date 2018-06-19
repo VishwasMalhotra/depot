@@ -54,13 +54,11 @@
     <%= form.collection_select(:category_id, Category.all, :id, :title, prompt: "Select One") %>
   </div>
 
- <% 3.times do |i| %>
-  <%= form.fields_for :images, form.object.images.build do |image_form| %>
+  <%= form.fields_for :images do |image_form| %>
     <div class="field">
-      <%= image_form.file_field "picture_#{i}" %>
+      <%= image_form.file_field :picture %>
    </div>
     <% end %>
-  <% end %>
 
   <div class="actions">
     <%= form.submit %>
