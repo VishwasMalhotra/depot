@@ -31,6 +31,24 @@
     <%= form.password_field :password_confirmation, id: :user_password_confirmation %>
   </div>
 
+  <div class="field">
+    <b><%= form.label :address %><br></b>
+    <%= form.fields_for :address do |address_form| %>
+
+      <%= address_form.label :state %>
+      <%= address_form.text_field :state %>
+
+      <%= address_form.label :city %>
+      <%= address_form.text_field :city %>
+
+      <%= address_form.label :country %>
+      <%= address_form.text_field :country %>
+
+      <%= address_form.label :pincode %>
+      <%= address_form.text_field :pincode %>
+    <% end %>
+  </div>
+
   <div class="actions">
     <%= form.submit %>
   </div>

@@ -7,6 +7,11 @@ class ProductsController < ApplicationController
     @products = Product.all
     # Category and Subcategory Listing for the category exercise would shift this when the Category CRUD is made.
     @category = Category.includes(:products, subcategories: :products)
+
+    respond_to do |format|
+      format.json  { render json: @products, :only => [:title], :include => {:category => {:only => [:title]} } }
+      format.html
+    end
   end
 
   # GET /products/1
@@ -30,6 +35,7 @@ class ProductsController < ApplicationController
 
     respond_to do |format|
       if @product.save
+        upload()
         format.html { redirect_to @product, notice: 'Product was successfully created.' }
         format.json { render :show, status: :created, location: @product }
       else
@@ -63,6 +69,19 @@ class ProductsController < ApplicationController
     end
   end
 
+
+def upload
+  uploaded_io = params[:product][:images_attributes].permit!
+  uploaded_io.keys.map.with_index do |index, key|
+    @image_stored = File.read(uploaded_io[key.to_s]["picture_#{index}"].tempfile.path)
+    File.open(Rails.root.join('public', 'upload', Product.last.id.to_s + "_#{index}"), 'wb') do |file|
+      file.write(@image_stored)
+    end
+  end
+end
+
+
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_product
@@ -71,7 +90,7 @@ class ProductsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def product_params
-      params.require(:product).permit(:title, :description, :image_url, :price, :discount_price, :permalink, :enabled)
+      params.require(:product).permit(:title, :description, :image_url, :price, :discount_price, :permalink, :enabled, :category_id, images_attributes: [:picture])
     end
 
     def who_bought
