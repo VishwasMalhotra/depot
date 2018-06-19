@@ -22,3 +22,29 @@ data: { confirm: 'Are you sure?' } %>
 </table>
 <br />
 <%= link_to 'New product', new_product_path %>
+
+
+<!-- Category and Subcategory Listing for the category exercise would shift this when the Category CRUD is made. -->
+<hr>
+<h1>Category Listing for the category exercise</h1>
+<h1>Listing Category</h1>
+  <% @category.each do |c| %>
+    <h5><%= c.title %></h5>
+      <% c.products.each do |a| %>
+      <ul>
+          <li><h5>Product: <%= a.title %></h5></li>
+        </ul>
+      <% end %>
+
+    <% c.subcategories.each do |s| %>
+        <ul>
+          <li>Subcategory: <%= s.title %></li>
+      <% s.products.each do |a| %>
+      <ul>
+          <li><h5>Product: <%= a.title %></h5></li>
+        </ul>
+      <% end %>
+        </ul>
+      <% end %>
+  <% end %>
+
