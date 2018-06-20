@@ -4,10 +4,8 @@ class Image < ApplicationRecord
 
   validate :uploaded_images
 
-@@image_count = 0
   def uploaded_images
-    @@image_count += 1
-    errors.add(:base, "Cannot upload more than 3 images.") if @@image_count > 3
+    errors.add(:base, "Cannot upload more than 3 images.") if product.images.count > 3
   end
 
 end

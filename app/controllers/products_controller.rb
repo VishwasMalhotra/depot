@@ -81,11 +81,9 @@ class ProductsController < ApplicationController
     new_image = Image.new(name: @image_name, product_id: @product.id)
     new_image.save!
 
-    @image_id = @product.images.find_by(name: @image_name).id
+    @image_id = new_image.id
 
     @image_stored = File.read(uploaded_io[key.to_s]["picture"].tempfile.path)
-
-    @image_content_type = uploaded_io[key.to_s]["picture"].content_type
 
     # File.open(Rails.root.join('app', 'assets', 'images', Dir.mkdir("#{@image_id}"), "#{@image_name}"), 'wb') do |file|
       File.open(Rails.root.join('app', 'assets', 'images', @image_id.to_s.concat("." + @image_name.split(".").last)), 'wb') do |file|
