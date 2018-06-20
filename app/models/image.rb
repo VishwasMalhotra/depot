@@ -1,6 +1,6 @@
 class Image < ApplicationRecord
   attr_accessor :picture
-  belongs_to :products, optional: true
+  belongs_to :product, optional: true
 
   validate :uploaded_images
 
