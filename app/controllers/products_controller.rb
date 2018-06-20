@@ -5,9 +5,6 @@ class ProductsController < ApplicationController
   # GET /products.json
   def index
     @products = Product.all
-    # Category and Subcategory Listing for the category exercise would shift this when the Category CRUD is made.
-    @category = Category.includes(:products, subcategories: :products)
-
     respond_to do |format|
       format.json  { render json: @products, only: :title, include: {category: {only: [:title]} } }
       format.html

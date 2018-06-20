@@ -42,6 +42,10 @@ end
     get :who_bought, on: :member
   end
 
+  namespace :admin do
+    resources :reports, only: :index
+    resources :categories, only: :index
+  end
 
 # get '/users/orders', to: 'users#orders'
 

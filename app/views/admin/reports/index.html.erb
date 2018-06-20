@@ -1,0 +1,43 @@
+<h3>Orders</h3>
+<%= form_tag(admin_reports_path, method: :get) do %>
+  <div class="field">
+    <%= label_tag :start_date %>
+    <%= date_field_tag :start_date, params[:start_date] %>
+  </div>
+
+  <div class="field">
+    <%= label_tag :end_date %>
+    <%= date_field_tag :end_date, params[:end_date] %>
+  </div>
+
+  <div class="actions">
+    <%= submit_tag 'Select'%>
+  </div>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Address</th>
+      <th>Email</th>
+      <th>Pay type</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @orders.each do |order| %>
+      <tr>
+        <td><%= order.name %></td>
+        <td><%= order.address %></td>
+        <td><%= order.email %></td>
+        <td><%= order.pay_type %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+
+
