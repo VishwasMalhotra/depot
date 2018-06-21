@@ -27,6 +27,7 @@ class ProductsController < ApplicationController
 
   # GET /products/1/edit
   def edit
+    (3 - @product.images.count).times { @product.images.build }
   end
 
   # POST /products
@@ -51,6 +52,7 @@ class ProductsController < ApplicationController
   def update
     respond_to do |format|
       if @product.update(product_params)
+        upload
         format.html { redirect_to @product, notice: 'Product was successfully updated.' }
         format.json { render :show, status: :ok, location: @product }
       else
@@ -74,22 +76,25 @@ class ProductsController < ApplicationController
   def upload
     uploaded_io = params[:product][:images_attributes]
 
-    uploaded_io.keys.map.with_index do |index, key|
+      uploaded_io.keys.map.with_index do |index, key|
 
-    @image_name = uploaded_io[key.to_s]["picture"].original_filename
+        unless uploaded_io[key.to_s]["picture"].nil?
 
-    new_image = Image.new(name: @image_name, product_id: @product.id)
-    new_image.save!
+          @image_name = uploaded_io[key.to_s]["picture"].original_filename
 
-    @image_id = new_image.id
+          new_image = Image.new(name: @image_name, product_id: @product.id)
+          new_image.save!
 
-    @image_stored = File.read(uploaded_io[key.to_s]["picture"].tempfile.path)
+          @image_id = new_image.id
 
-    # File.open(Rails.root.join('app', 'assets', 'images', Dir.mkdir("#{@image_id}"), "#{@image_name}"), 'wb') do |file|
-      File.open(Rails.root.join('app', 'assets', 'images', @image_id.to_s.concat("." + @image_name.split(".").last)), 'wb') do |file|
-        file.write(@image_stored)
+          @image_stored = File.read(uploaded_io[key.to_s]["picture"].tempfile.path)
+
+            File.open(Rails.root.join('app', 'assets', 'images', @image_id.to_s.concat("." + @image_name.split(".").last)), 'wb') do |file|
+              file.write(@image_stored)
+            end
+        end
+
       end
-    end
   end
 
 

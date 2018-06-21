@@ -56,7 +56,8 @@
 
   <%= form.fields_for :images do |image_form| %>
     <div class="field">
-      <%= image_form.file_field :picture %>
+      <p><%= image_form.object.name %></p>
+      <%= image_form.file_field :picture unless image_form.object.persisted? %>
    </div>
     <% end %>
 
