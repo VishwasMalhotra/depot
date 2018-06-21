@@ -20,5 +20,12 @@
   <%= @product.price %>
 </p>
 
+<% @product.images.each do |img| %>
+<p>
+  <strong>Image:</strong>
+  <%= image_tag(img.id, class: 'list_image') %>
+</p>
+<% end %>
+
 <%= link_to 'Edit', edit_product_path(@product) %> |
 <%= link_to 'Back', products_path %>

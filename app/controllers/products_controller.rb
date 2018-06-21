@@ -7,6 +7,11 @@ class ProductsController < ApplicationController
     @products = Product.all
     # Category and Subcategory Listing for the category exercise would shift this when the Category CRUD is made.
     @category = Category.includes(:products, subcategories: :products)
+
+    respond_to do |format|
+      format.json  { render json: @products, only: :title, include: {category: {only: [:title]} } }
+      format.html
+    end
   end
 
   # GET /products/1
@@ -17,10 +22,12 @@ class ProductsController < ApplicationController
   # GET /products/new
   def new
     @product = Product.new
+    3.times { @product.images.build }
   end
 
   # GET /products/1/edit
   def edit
+    (3 - @product.images.count).times { @product.images.build }
   end
 
   # POST /products
@@ -30,6 +37,7 @@ class ProductsController < ApplicationController
 
     respond_to do |format|
       if @product.save
+        upload
         format.html { redirect_to @product, notice: 'Product was successfully created.' }
         format.json { render :show, status: :created, location: @product }
       else
@@ -44,6 +52,7 @@ class ProductsController < ApplicationController
   def update
     respond_to do |format|
       if @product.update(product_params)
+        upload
         format.html { redirect_to @product, notice: 'Product was successfully updated.' }
         format.json { render :show, status: :ok, location: @product }
       else
@@ -63,6 +72,33 @@ class ProductsController < ApplicationController
     end
   end
 
+
+  def upload
+    uploaded_io = params[:product][:images_attributes]
+
+      uploaded_io.keys.map.with_index do |index, key|
+
+        unless uploaded_io[key.to_s]["picture"].nil?
+
+          @image_name = uploaded_io[key.to_s]["picture"].original_filename
+
+          new_image = Image.new(name: @image_name, product_id: @product.id)
+          new_image.save!
+
+          @image_id = new_image.id
+
+          @image_stored = File.read(uploaded_io[key.to_s]["picture"].tempfile.path)
+
+            File.open(Rails.root.join('app', 'assets', 'images', @image_id.to_s.concat("." + @image_name.split(".").last)), 'wb') do |file|
+              file.write(@image_stored)
+            end
+        end
+
+      end
+  end
+
+
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_product
@@ -71,7 +107,7 @@ class ProductsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def product_params
-      params.require(:product).permit(:title, :description, :image_url, :price, :discount_price, :permalink, :enabled)
+      params.require(:product).permit(:title, :description, :image_url, :price, :discount_price, :permalink, :enabled, :category_id)
     end
 
     def who_bought
