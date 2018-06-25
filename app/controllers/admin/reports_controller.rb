@@ -1,5 +1,5 @@
-class Admin::ReportsController < ApplicationController
-  before_action :filter_by_date #:check_authorization ,:filter_by_date
+class Admin::ReportsController < Admin::BaseController
+  before_action :filter_by_date
 
   def index
     @orders = Order.by_date(@start_date, @end_date)
@@ -8,7 +8,7 @@ class Admin::ReportsController < ApplicationController
   private
 
   def filter_by_date
-    if params[:start_date] && params[:end_date]
+    if (params[:start_date] && params[:end_date]) && !(params[:start_date].empty? || params[:end_date].empty?)
       @start_date = params[:start_date]
       @end_date = params[:end_date]
     else
@@ -16,10 +16,4 @@ class Admin::ReportsController < ApplicationController
       @end_date = DateTime.current
     end
   end
-
-  # def check_authorization
-  #   unless current_user.role.eql?('admin')
-  #     redirect_to store_path, notice: 'You do not have privilege to access this section'
-  #   end
-  # end
 end

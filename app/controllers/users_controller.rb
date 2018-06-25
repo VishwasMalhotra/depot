@@ -18,6 +18,14 @@ class UsersController < ApplicationController
     @user.build_address
   end
 
+  def orders
+    @orders = current_user.orders
+  end
+
+  def items
+    @orders = current_user.orders.includes(line_items: :product)
+  end
+
   # GET /users/1/edit
   def edit
     @user.build_address if @user.address.nil?

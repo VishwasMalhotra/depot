@@ -1,27 +1,3 @@
-# Rails.application.routes.draw do
-#   get 'admin/index'
-
-#   get 'sessions/new'
-
-#   get 'sessions/create'
-
-#   get 'sessions/destroy'
-
-#   resources :users
-#   resources :orders
-#   resources :line_items
-#   resources :carts
-#   get 'store/index'
-
-#   resources :products
-#   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-#   root 'store#index', as: 'store'
-# end
-
-
-
-
-
 Depot::Application.routes.draw do
   get 'admin' => 'admin#index'
   controller :sessions do
@@ -38,14 +14,19 @@ end
   resources :carts
   get "store/index"
 
-  resources :products do
-    get :who_bought, on: :member
-  end
+  resources :products, path: 'books'
+
+  get "my-order", to: 'users#orders'
+  get "my-items", to: 'users#items'
 
   namespace :admin do
-    resources :reports, only: :index
-    resources :categories, only: :index
+    resources :reports, only: [:index]
+    resources :categories, only: [:index] do
+      get "books", on: :member, constraints: { id: /\d/ }
+      get 'books', to: redirect('/')
+    end
   end
+  # get "categories/:id/books", to: 'categories#books'
 
 # get '/users/orders', to: 'users#orders'
 

@@ -1,21 +1,20 @@
 <h1>Listing Category</h1>
-  <% @category.each do |c| %>
-    <h5><%= c.title %></h5>
-      <% c.products.each do |a| %>
+  <% @category.each do |single_category| %>
+    <td><%= link_to single_category.title, books_admin_category_path(single_category) %></td>
+      <% single_category.products.each do |category_product| %>
       <ul>
-          <li><h5>Product: <%= a.title %></h5></li>
+          <li><h5>Product: <%= category_product.title %></h5></li>
         </ul>
       <% end %>
 
-    <% c.subcategories.each do |s| %>
+    <% single_category.subcategories.each do |subcategory| %>
         <ul>
-          <li>Subcategory: <%= s.title %></li>
-      <% s.products.each do |a| %>
+          <li>Subcategory: <%= subcategory.title %></li>
+      <% subcategory.products.each do |subcategory_product| %>
       <ul>
-          <li><h5>Product: <%= a.title %></h5></li>
+          <li><h5>Product: <%= subcategory_product.title %></h5></li>
         </ul>
       <% end %>
         </ul>
       <% end %>
   <% end %>
-
