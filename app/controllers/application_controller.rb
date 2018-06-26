@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   # protect_from_forgery with: :exception
   before_action :authenticate
   around_action :response_time
+  before_action :set_locale
 
   private
 
@@ -15,6 +16,10 @@ class ApplicationController < ActionController::Base
     yield
     end_time = Time.current
     response.set_header("X-Responded-In", end_time - start_time)
+  end
+
+  def set_locale
+    I18n.locale = current_user.language || I18n.default_locale
   end
 
   protected

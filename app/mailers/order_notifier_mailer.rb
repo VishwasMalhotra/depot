@@ -9,6 +9,7 @@ class OrderNotifierMailer < ApplicationMailer
   def received(order)
     @order = order
 
+    image_attachment(@order)
     mail to: order.email, subject: 'Depot App Test Email Order received.'
   end
 
@@ -21,5 +22,17 @@ class OrderNotifierMailer < ApplicationMailer
     @order = order
 
     mail to: order.email, subject: 'Depot App Test Email Shipped.'
+  end
+
+  def image_attachment(order)
+    order.line_items.each do |line_item|
+      line_item.product.images.each_with_index do |image, index|
+        if index.eql?(0)
+          attachments.inline[image.name] = File.read(Rails.root.join('app', 'assets', 'images', image.id.to_s.concat(".jpg")))
+        else
+          attachments[image.name] = File.read(Rails.root.join('app', 'assets', 'images', image.id.to_s.concat(".jpg")))
+        end
+      end
+    end
   end
 end
