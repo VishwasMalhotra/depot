@@ -5,7 +5,11 @@
 <h1>Your Pragmatic Catalog</h1>
   <% @products.each do |product| %>
   <div class="entry">
-    <%= image_tag(product.image_url) %>
+    <% if product.images.empty? %>
+      <%= image_tag(product.image_url, class: 'list_image') %>
+    <% else %>
+      <%= image_tag(product.images.first.id, class: 'list_image') %>
+    <% end %>
     <h3><%= product.title %></h3>
     <%= sanitize(product.description) %>
     <div class="price_line">

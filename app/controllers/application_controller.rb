@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   before_action :authenticate
   before_action :page_hit_count
   around_action :response_time
+  before_action :set_locale
 
   def page_hit_count
     if cookies.key?(request.url)
@@ -24,6 +25,10 @@ class ApplicationController < ActionController::Base
     yield
     end_time = Time.current
     response.set_header("X-Responded-In", end_time - start_time)
+  end
+
+  def set_locale
+    I18n.locale = current_user.language || I18n.default_locale
   end
 
   protected
