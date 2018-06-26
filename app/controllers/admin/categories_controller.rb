@@ -4,6 +4,6 @@ class Admin::CategoriesController < Admin::BaseController
   end
 
   def books
-    @category_products = Category.find_by_id(params[:id])
+    @category = Category.find_by_id(params[:id])
   end
 end

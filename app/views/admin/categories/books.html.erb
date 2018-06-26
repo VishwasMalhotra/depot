@@ -1,12 +1,12 @@
 <h1>Listing Category</h1>
 
-<h5><%= @category_products.title %></h5>
-<% @category_products.products.each do |category_product| %>
+<h5><%= @category.title %></h5>
+<% @category.products.each do |category_product| %>
   <ul>
     <li><h5>Product: <%= category_product.title %></h5></li>
   </ul>
 
-  <% @category_products.subcategories.each do |subcategory| %>
+  <% @category.subcategories.each do |subcategory| %>
     <ul>
       <li>Subcategory: <%= subcategory.title %></li>
       <% subcategory.products.each do |subcategory_product| %>

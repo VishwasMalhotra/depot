@@ -1,7 +1,6 @@
 class Admin::ReportsController < Admin::BaseController
-  before_action :filter_by_date
-
   def index
+    filter_by_date
     @orders = Order.by_date(@start_date, @end_date)
   end
 
