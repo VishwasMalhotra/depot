@@ -17,6 +17,10 @@ class User < ApplicationRecord
     role.eql?('admin')
   end
 
+  def user_order_information_mail
+    UserNotifierMailer.order_information(self).deliver
+  end
+
 private
   def verify_admin
     if email == 'admin@depot.com'
