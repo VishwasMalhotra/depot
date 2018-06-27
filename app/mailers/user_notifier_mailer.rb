@@ -11,4 +11,10 @@ class UserNotifierMailer < ApplicationMailer
 
     mail to: user.email, subject: "Welcome to Depot App!"
   end
+
+  def order_information(user)
+    @user = user
+
+    mail to: user.email, subject: "Total Orders Record"
+  end
 end
