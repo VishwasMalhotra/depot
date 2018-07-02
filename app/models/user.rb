@@ -2,6 +2,7 @@ class User < ApplicationRecord
   enum role: [ :user, :admin ]
   enum language: [ :en, :hd ]
   has_one :address, dependent: :destroy
+  has_many :ratings
   accepts_nested_attributes_for :address
   validates :name, presence: true, uniqueness: true
   has_secure_password
