@@ -2,6 +2,7 @@ class User < ApplicationRecord
   enum role: [ :user, :admin ]
   enum language: [ :en, :hd ]
   has_one :address, dependent: :destroy
+  has_many :ratings
   accepts_nested_attributes_for :address
   validates :name, presence: true, uniqueness: true
   has_secure_password
@@ -12,6 +13,7 @@ class User < ApplicationRecord
 
   has_many :orders
   validates :email, uniqueness: true, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, message: "Not a valid Email Address." }
+
 
   def admin?
     role.eql?('admin')
