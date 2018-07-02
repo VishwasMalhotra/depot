@@ -16,6 +16,8 @@ end
 
   resources :products, path: 'books'
 
+  resources :ratings, only: [:create]
+
   get "my-order", to: 'users#orders'
   get "my-items", to: 'users#items'
 
