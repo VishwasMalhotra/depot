@@ -1,6 +1,7 @@
 <h1>Listing Category</h1>
   <% @category.each do |single_category| %>
-    <td><%= link_to single_category.title, books_admin_category_path(single_category) %></td>
+
+    <td><%= link_to single_category.title, books_admin_category_path(single_category.id) %></td>
       <% single_category.products.each do |category_product| %>
       <ul>
           <li><h5>Product: <%= category_product.title %></h5></li>

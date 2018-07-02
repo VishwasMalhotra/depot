@@ -22,7 +22,7 @@ end
   namespace :admin do
     resources :reports, only: [:index]
     resources :categories, only: [:index] do
-      get "books", on: :member, constraints: { id: /\d/ }
+      get "books", on: :member
       get 'books', to: redirect('/')
     end
   end
