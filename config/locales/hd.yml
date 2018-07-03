@@ -1,0 +1,30 @@
+hd:
+
+  order_thanks: द प्रोगामैटिक स्टोर से आपके हालिया आदेश के लिए धन्यवाद।
+  following_order: आपने निम्नलिखित मदों का आदेश दिया है।
+  when_order_ships: आपके ऑर्डर जहाजों के दौरान हम आपको एक अलग ई-मेल भेजेंगे।
+  salutation: प्रिय
+
+  activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            name:
+              blank : खाली नहीं हो सकता है
+              taken: अद्वितीय होना चाहिए
+            password:
+              blank: खाली नहीं हो सकता है
+            email:
+              invalid: ई मेल पता ठीक नही है
+              taken: अद्वितीय होना चाहिए
+            password_confirmation:
+              confirmation: पासवर्ड मिलना चाहिए
+    models:
+      user: उपयोगकर्ता
+    attributes:
+      user:
+        name: नाम
+        password: पारण शब्द
+        email: ईमेल
+        password_confirmation: पासवर्ड पुष्टि

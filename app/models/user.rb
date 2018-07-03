@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   enum role: [ :user, :admin ]
+  enum language: [ :en, :hd ]
   has_one :address, dependent: :destroy
   accepts_nested_attributes_for :address
   validates :name, presence: true, uniqueness: true
@@ -14,6 +15,10 @@ class User < ApplicationRecord
 
   def admin?
     role.eql?('admin')
+  end
+
+  def orders_information_mail
+    UserNotifierMailer.order_information(self).deliver
   end
 
 private
