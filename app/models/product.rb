@@ -38,7 +38,7 @@ class Product < ApplicationRecord
   validates :image_url, url:true
 
   def rating_average
-    ratings.average(:rating)
+    ratings.average(:value)
   end
 
 private

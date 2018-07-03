@@ -93,7 +93,7 @@ ActiveRecord::Schema.define(version: 20180628123135) do
   create_table "ratings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "product_id"
     t.bigint "user_id"
-    t.decimal "rating", precision: 2, scale: 1
+    t.decimal "value", precision: 2, scale: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["product_id"], name: "index_ratings_on_product_id"
@@ -106,11 +106,7 @@ ActiveRecord::Schema.define(version: 20180628123135) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "email"
-<<<<<<< 8d85719a7c36262adb676755c76a453203c60b93
     t.integer "role", default: 0
-=======
-    t.string "role", default: "user"
->>>>>>> Mailer Exercise
     t.integer "language", default: 0
   end
 

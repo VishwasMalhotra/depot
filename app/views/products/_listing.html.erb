@@ -15,10 +15,10 @@
         </dl>
       </td>
       <td>
-        <%= select_tag :rating, options_for_select((1..5).step(0.5)),
+        <%= select_tag :value, options_for_select(RATING_STEP),
               include_blank: 'Product Review',
               data: { rating: '', product_id: product.id,
-              url: ratings_path(product) } %>
+              url: ratings_path } %>
           <% if product.ratings.exists? %>
             <p> <%= product.rating_average %></p>
           <% else %>
