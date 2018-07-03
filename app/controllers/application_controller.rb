@@ -2,7 +2,16 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :null_session
   # protect_from_forgery with: :exception
   before_action :authenticate
+  before_action :page_hit_count
   around_action :response_time
+
+  def page_hit_count
+    if cookies.key?(request.url)
+      cookies[request.url] = cookies[request.url].to_i + 1
+    else
+      cookies[request.url] = 1
+    end
+  end
 
   private
 

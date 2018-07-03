@@ -1,4 +1,10 @@
 Depot::Application.routes.draw do
+
+ constraints user_agent: /Firefox/ do
+    root 'store#index'
+    match '*url', to: redirect('/'), via: :all
+  end
+
   get 'admin' => 'admin#index'
   controller :sessions do
   get 'login' => :new
