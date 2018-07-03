@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180619113444) do
+ActiveRecord::Schema.define(version: 20180627112417) do
 
   create_table "addresses", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "state"
@@ -96,7 +96,8 @@ ActiveRecord::Schema.define(version: 20180619113444) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "email"
-    t.string "role", default: "user"
+    t.integer "role", default: 0
+    t.integer "language", default: 0
   end
 
   add_foreign_key "line_items", "carts"

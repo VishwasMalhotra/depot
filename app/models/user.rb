@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  enum role: [ :user, :admin ]
   has_one :address, dependent: :destroy
   accepts_nested_attributes_for :address
   validates :name, presence: true, uniqueness: true
@@ -11,9 +12,11 @@ class User < ApplicationRecord
   has_many :orders
   validates :email, uniqueness: true, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, message: "Not a valid Email Address." }
 
-  private
+  def admin?
+    role.eql?('admin')
+  end
 
-
+private
   def verify_admin
     if email == 'admin@depot.com'
       raise "Cannot delete the admin."

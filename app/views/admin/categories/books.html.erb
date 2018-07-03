@@ -1,0 +1,19 @@
+<h1>Listing Category</h1>
+
+<h5><%= @category.title %></h5>
+<% @category.products.each do |category_product| %>
+  <ul>
+    <li><h5>Product: <%= category_product.title %></h5></li>
+  </ul>
+
+  <% @category.subcategories.each do |subcategory| %>
+    <ul>
+      <li>Subcategory: <%= subcategory.title %></li>
+      <% subcategory.products.each do |subcategory_product| %>
+    <ul>
+      <li><h5>Product: <%= subcategory_product.title %></h5></li>
+    </ul>
+      <% end %>
+    </ul>
+  <% end %>
+<% end %>
