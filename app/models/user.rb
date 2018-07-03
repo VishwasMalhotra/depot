@@ -17,7 +17,7 @@ class User < ApplicationRecord
     role.eql?('admin')
   end
 
-  def user_order_information_mail
+  def orders_information_mail
     UserNotifierMailer.order_information(self).deliver
   end
 
