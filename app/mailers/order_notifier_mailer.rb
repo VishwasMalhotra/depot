@@ -10,7 +10,7 @@ class OrderNotifierMailer < ApplicationMailer
     @order = order
 
     image_attachment(@order)
-    # mail to: order.email, subject: 'Depot App Test Email Order received.'
+
     I18n.with_locale(order.user.language) do
       mail({
         :subject => "Depot App Test Email Order received.",

@@ -19,6 +19,7 @@ class Product < ApplicationRecord
   has_many :images
   accepts_nested_attributes_for :images, allow_destroy: true
   has_many :carts, through: :line_items
+  has_many :ratings
 
   before_destroy :ensure_not_referenced_by_any_line_item
   before_save :discount_equal_to_price
@@ -35,6 +36,10 @@ class Product < ApplicationRecord
     too_long: "must have at most %{count} words"
   }
   validates :image_url, url:true
+
+  def rating_average
+    ratings.average(:value)
+  end
 
 private
   def description_words
